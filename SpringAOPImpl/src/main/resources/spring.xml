@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
+
+<!-- Enable AspectJ style of Spring AOP -->
+<aop:aspectj-autoproxy/>
+
+<!-- Configure Employee Bean and initialize it -->
+<bean name = "employee" class="org.sri.springLearning.Employee">
+	<property name="name" value="Dummy Name"></property>
+</bean>
+
+<!-- Configure Employee Service Bean -->
+<bean name="employeeService" class="org.sri.springLearning.EmployeeService">
+<property name="employee" ref="employee"></property>
+</bean>
+
+<!-- Configure Aspect Beans, without this Aspect advices won't execute -->
+<bean name="employeeAspect" class="org.sri.springLearning.aspect.EmployeeAspect" />
+<bean name="employeeAspectPointcut" class="org.sri.springLearning.aspect.EmployeeAspectPointcut" />
+<bean name="employeeAspectJoinPoint" class="org.sri.springLearning.aspect.EmployeeAspectJoinPoint" />
+<bean name="employeeAfterAspect" class="org.sri.springLearning.aspect.EmployeeAfterAspect" />
+<bean name="employeeAroundAspect" class="org.sri.springLearning.aspect.EmployeeAroundAspect" />
+<bean name="employeeAnnotationAspect" class="org.sri.springLearning.aspect.EmployeeAnnotationAspect" />
+
+<bean name="employeeXMLConfigAspect" class="org.sri.springLearning.aspect.EmployeeXMLConfigAspect" />
+
+<!-- Spring AOP XML Configuration -->
+<aop:config>
+	<aop:aspect ref="employeeXMLConfigAspect" id="employeeXMLConfigAspectID" order="1">
+		<aop:pointcut expression="execution(* org.sri.springLearning.Employee.getName())" id="getNamePointcut"/>
+		<aop:around method="employeeAroundAdvice" pointcut-ref="getNamePointcut" arg-names="proceedingJoinPoint"/>
+	</aop:aspect>
+</aop:config>
+</beans>
