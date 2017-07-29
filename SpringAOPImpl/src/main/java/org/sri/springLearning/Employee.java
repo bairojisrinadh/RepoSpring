@@ -19,4 +19,10 @@ public class Employee {
 	public void throwException(){
 		throw new RuntimeException("Dummy Exception");
 	}
+
+	@Override
+	public String toString(){
+		return "Employee: " + "[Name = " + getName() +"]";
+	}
+
 }
